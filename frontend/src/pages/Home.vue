@@ -7,7 +7,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup> 
+import { onMounted } from 'vue';
+
+
+onMounted(() => {
+  console.log('this thing on?')
+  fetch('api/client/say-hello')
+    .then(response => response.json())
+    .then(data => {
+      console.log('Response from server:', data);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+});
 
 </script>
 
