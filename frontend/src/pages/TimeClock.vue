@@ -4,10 +4,15 @@
     <router-link to="/">
       <button>Home Page</button>
     </router-link>
+    <div class="flex justify-between w-[900px] border-2">
+      <Button severity="info" variant="outlined">WAIT</Button>
+      <InputText placeholder="WUT..." />
+    </div>
 </div>  
 </template>
 
 <script setup>
+import { InputText } from "primevue";
 import { onMounted } from "vue";
 
 onMounted(() => {
