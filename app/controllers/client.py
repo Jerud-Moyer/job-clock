@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ..models import Client
+from app.models import Client
 
 client_controller = Blueprint('client_controller', __name__)
 
@@ -43,5 +43,14 @@ def update_client(client_id):
     try:
         client.save()
         return jsonify(client.to_dict()), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@client_controller.route('/delete-client/<int:client_id>', methods=['DELETE'])
+def delete_client(client_id):
+    client = Client.query.get_or_404(client_id)
+    try:
+        client.delete()
+        return jsonify({'message': 'Client deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
