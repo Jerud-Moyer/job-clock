@@ -6,7 +6,7 @@ import { Toolbar } from 'primevue';
 
 <template>
 <div class="min-h-screen flex flex-col">
-    <Toolbar class="toolbar w-screen">
+    <Toolbar class="toolbar w-screen pr-12">
         <template #end>
             <Button
                 label="Home"

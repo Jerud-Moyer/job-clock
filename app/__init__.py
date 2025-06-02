@@ -2,12 +2,14 @@ import os
 from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 db = SQLAlchemy()
 
 def create_app():
     print("Database URL:", os.getenv('DATABASE_URL'))
     app = Flask(__name__, static_folder='../dist', static_url_path='/')
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
     db.init_app(app)

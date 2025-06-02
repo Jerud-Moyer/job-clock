@@ -2,7 +2,7 @@
   <div>
     <h2>Time Clock</h2>
       <router-link to="/">
-        <button>Home Page</button>
+        <Button severity="warn">Home Page</Button>
       </router-link>
       <div class="flex justify-between w-[900px] border-2">
         <Button severity="info" variant="outlined">WAIT</Button>

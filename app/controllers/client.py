@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import Client
+from app import db
 
 client_controller = Blueprint('client_controller', __name__)
 
@@ -9,15 +10,24 @@ def client():
 
 @client_controller.route('/add-client', methods=['POST'])
 def add_client():
+    print('DO WE GET HERE???????????????')
     data = request.get_json()
-    new_client = Client(name=data['name'],
+    new_client = Client(first_name=data['first_name'],
+                        last_name=data['last_name'],
                         email=data['email'],
-                        phone=data.get('phone'),
-                        address=data.get('address'))
+                        phone=data['phone'],
+                        street_address=data['street_address'],
+                        city=data['city'],
+                        state=data['state'],
+                        zip_code=data['zip_code'],
+                        current_rate=data['current_rate']
+                        )
+    db.session.add(new_client)
     try:
-        new_client.save()
-        return jsonify(new_client.to_dict()), 201
+        db.session.commit()
+        return jsonify({'client': new_client.to_dict()}), 201
     except Exception as e:
+        db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
 @client_controller.route('/get-clients', methods=['GET'])   
@@ -35,10 +45,15 @@ def update_client(client_id):
     data = request.get_json()
     client = Client.query.get_or_404(client_id)
     
-    client.name = data.get('name', client.name)
+    client.first_name = data.get('first_name', client.name)
+    client.last_name = data.get('last_name', client.last_name)
     client.email = data.get('email', client.email)
     client.phone = data.get('phone', client.phone)
-    client.address = data.get('address', client.address)
+    client.street_address = data.get('street_address', client.address)
+    client.city = data.get('city', client.city)
+    client.state = data.get('state', client.state)
+    client.zip_code = data.get('zip_code', client.zip_code)
+    client.current_rate = data.get('current_rate', client.current_rate)
     
     try:
         client.save()
