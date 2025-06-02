@@ -32,20 +32,34 @@ class TimeEntry(db.Model):
 class Client(db.Model):
     __tablename__ = 'clients'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    # may be first and last fields? And a company name field?
+    # name = db.Column(db.String(100), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
     phone = db.Column(db.String(20), nullable=True)
-    address = db.Column(db.String(255), nullable=True)
+    # maybe separate address fied out?
+    # address = db.Column(db.String(255), nullable=True)
+    street_address = db.Column(db.String(100), nullable=True)
+    city = db.Column(db.String(50), nullable=True)
+    state = db.Column(db.String(50), nullable=True)
+    zip_code = db.Column(db.String(20), nullable=True)
+    current_rate = db.Column(db.Float, nullable=False, default=0.0)
 
     def __repr__(self):
         return f'<Client {self.name}>'
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
             'email': self.email,
             'phone': self.phone,
-            'address': self.address
+            'street_address': self.street_address,
+            'city': self.city,
+            'state': self.state,
+            'zip_code': self.zip_code,
+            'current_rate': self.current_rate
         }
 
 class Job(db.Model):

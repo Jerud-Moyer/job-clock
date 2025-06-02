@@ -1,4 +1,15 @@
+@layer theme, primevue, tailwindcss;
+
 @import "tailwindcss";
 @import "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
 @custom-variant dark (&:where(.p-dark, .p-dark *));
+
+/* Tailwind/Primevue overrides */
+button.p-tab:focus {
+    outline: none;
+}
+
+button.p-tab {
+    border-radius: 0;
+}
