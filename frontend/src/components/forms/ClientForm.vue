@@ -1,7 +1,9 @@
 <script setup>
-// import { InputNumber } from 'primevue';
-import { reactive } from 'vue';
+import { inject, reactive } from 'vue';
 import stateOptions from '../../data/state-options';
+import clientApi from '../../utiils/api/clients';
+
+const { notify } = inject('toaster')
 
 const { clientForUpdate } = defineProps({
     clientForUpdate: {
@@ -32,24 +34,20 @@ const clearForm = () => {
 }
 
 const handleSubmit = () => {
-    console.log('CLIENT STATE => ', clientState);
-    fetch('/api/clients/add-client', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(clientState),
-    })
-        .then(res => res.json())
+    clientApi.addClient(clientState)
         .then(json => {
             if (json.error) {
                 console.error('Error:', json.error);
+                notify(json.error, 'error');
                 return;
             } else {
+                notify('Client saved successfully!', 'success');
+                clearForm()
                 console.log('NEW CLIENT => ', json.client);
             }
         })
         .catch(err => {
+            notify(err.message, 'error');
             console.error('Error saving client:', err);
         });
 }

@@ -8,6 +8,8 @@ import PrimeVue from "primevue/config"
 import primeTheme from "./theme.js"
 import { definePreset } from '@primeuix/themes'
 import Material from '@primeuix/themes/material'
+import ToastService from 'primevue/toastservice'
+
 
 const themeWut = definePreset(Material, {
 	components: {
@@ -30,6 +32,7 @@ const themeWut = definePreset(Material, {
 
 const app = createApp(App)
 app.use(router)
+app.use(ToastService)
 app.use(PrimeVue, {
 	
 	theme: {
