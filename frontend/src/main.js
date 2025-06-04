@@ -10,26 +10,6 @@ import { definePreset } from '@primeuix/themes'
 import Material from '@primeuix/themes/material'
 import ToastService from 'primevue/toastservice'
 
-
-const themeWut = definePreset(Material, {
-	components: {
-		toolbar: {
-			borderRadius: '0px'
-		},
-		button: {
-			paddingX: '60px',
-			primaryHoverBackground: '{cyan.700}',
-		},
-		tabs: {
-			tabFocusRingColor: 'transparent',
-			tabActiveBorderColor: 'green',
-			tabBackground: 'blue',
-			tabBorderWidth: '4px',
-			tabBorderColor: '{slate.600}'
-		}
-	}
-})
-
 const app = createApp(App)
 app.use(router)
 app.use(ToastService)
@@ -42,7 +22,7 @@ app.use(PrimeVue, {
 			// cssLayer: {
 			// 	name: "primevue",
 			// 	order: "app-styles, primevue, tailwind",
-			// }
+			// } Why does tis break it? Docs told me this would work
 		},
 	},
 })
