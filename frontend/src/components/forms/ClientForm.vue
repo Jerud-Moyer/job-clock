@@ -55,7 +55,7 @@ const handleSubmit = () => {
 
 <template>
     <div class="flex flex-col gap-12">
-        <div class="flex flex-row gap-12 justify-around items-center">
+        <div class="pt-8 px-4 flex flex-row gap-8 justify-around items-center">
             <div class="flex flex-col gap-4">
                 <div class="relative max-w-fit">
                     <FloatLabel variant="on">
