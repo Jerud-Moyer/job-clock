@@ -22,7 +22,8 @@ app.use(PrimeVue, {
 			// cssLayer: {
 			// 	name: "primevue",
 			// 	order: "app-styles, primevue, tailwind",
-			// } Why does tis break it? Docs told me this would work
+			// } 
+			//Why does tis break it? Docs told me this would work
 		},
 	},
 })

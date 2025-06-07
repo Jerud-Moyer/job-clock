@@ -10,7 +10,6 @@ def client():
 
 @client_controller.route('/add-client', methods=['POST'])
 def add_client():
-    print('DO WE GET HERE???????????????')
     data = request.get_json()
     new_client = Client(first_name=data['first_name'],
                         last_name=data['last_name'],
@@ -33,7 +32,7 @@ def add_client():
 @client_controller.route('/get-clients', methods=['GET'])   
 def get_clients():
     clients = Client.query.all()
-    return jsonify([client.to_dict() for client in clients]), 200
+    return jsonify({'clients': [client.to_dict() for client in clients]}), 200
 
 @client_controller.route('/get-client/<int:client_id>', methods=['GET'])
 def get_client(client_id):

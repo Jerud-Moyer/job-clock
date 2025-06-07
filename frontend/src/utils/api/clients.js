@@ -16,6 +16,24 @@ const addClient = async(client) => {
     }
 }
 
+const getClients = async() => {
+    try{
+        const res = await fetch('/api/clients/get-clients', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        console.log('Response from getClients:', res);
+        return await res.json()
+    }
+    catch(err) {
+        console.error('Error fetching clients:', err);
+        throw err;
+    }
+}
+
 export default {
+    getClients,
     addClient,
 }

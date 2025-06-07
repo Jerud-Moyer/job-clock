@@ -5,7 +5,7 @@ import { Toolbar } from 'primevue';
 </script>
 
 <template>
-<div class="min-h-screen flex flex-col">
+<div class="h-full w-full">
     <Toolbar class="toolbar w-screen pr-12">
         <template #end>
             <Button
@@ -31,7 +31,7 @@ import { Toolbar } from 'primevue';
             />  
         </template>
     </Toolbar>
-    <div class="pt-[50px]">
+    <div class="w-full h-full p-4">
         <slot></slot>
     </div>
 </div>

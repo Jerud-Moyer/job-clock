@@ -43,7 +43,6 @@ provide('toaster', { notify })
 <template>
   <MainLayout>
     <div>
-      <h1>This My Timeclock!</h1>
       <RouterView />
       <Toast />
     </div>

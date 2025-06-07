@@ -5,12 +5,16 @@ import TabPanel from 'primevue/tabpanel'
 import TabPanels from 'primevue/tabpanels'
 import Tabs from 'primevue/tabs'
 import ClientForm from '../components/forms/ClientForm.vue'
+import { inject } from 'vue'
+import ClientList from '../components/ClientList.vue'
+
+const { notify } = inject('toaster')
 
 </script>
 
 <template>
     <div>
-        <Tabs value="0" class="w-[900px] mt-20">
+        <Tabs value="0" class="w-[900px]">
             <TabList>
                 <Tab value="0" >
                    Client List
@@ -24,13 +28,13 @@ import ClientForm from '../components/forms/ClientForm.vue'
             </TabList>
             <TabPanels class="">
                 <TabPanel value="0">
-                   <ClientForm />
+                    <ClientList />
                 </TabPanel>
                 <TabPanel value="1">
-                    <P>HERES MY FORM!!!</P>
+                    <ClientForm />
                 </TabPanel>
                 <TabPanel value="2">
-                    <P>HERES MY FORM!!!</P>
+                    <ClientForm />
                 </TabPanel>
             </TabPanels>
         </Tabs>
