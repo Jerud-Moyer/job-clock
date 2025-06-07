@@ -1,7 +1,7 @@
 <script setup>
 import { inject, reactive } from 'vue';
 import stateOptions from '../../data/state-options';
-import clientApi from '../../utiils/api/clients';
+import clientApi from '../../utils/api/clients';
 
 const { notify } = inject('toaster')
 
