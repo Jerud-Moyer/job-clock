@@ -41,23 +41,26 @@ def get_client(client_id):
 
 @client_controller.route('/update-client/<int:client_id>', methods=['PUT'])
 def update_client(client_id):
+    print("Updating client with ID:", client_id)
     data = request.get_json()
     client = Client.query.get_or_404(client_id)
     
-    client.first_name = data.get('first_name', client.name)
+    client.first_name = data.get('first_name', client.first_name)
     client.last_name = data.get('last_name', client.last_name)
     client.email = data.get('email', client.email)
     client.phone = data.get('phone', client.phone)
-    client.street_address = data.get('street_address', client.address)
+    client.street_address = data.get('street_address', client.street_address)
     client.city = data.get('city', client.city)
     client.state = data.get('state', client.state)
     client.zip_code = data.get('zip_code', client.zip_code)
     client.current_rate = data.get('current_rate', client.current_rate)
     
+    db.session.add(client)
     try:
-        client.save()
+        db.session.commit()
         return jsonify(client.to_dict()), 200
     except Exception as e:
+        db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
 @client_controller.route('/delete-client/<int:client_id>', methods=['DELETE'])
@@ -68,3 +71,9 @@ def delete_client(client_id):
         return jsonify({'message': 'Client deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@client_controller.route('/get-client-options', methods=['GET'])
+def get_client_options():
+    clients = Client.query.all()
+    options = [{'value': client.id, 'label': f"{client.first_name} {client.last_name}"} for client in clients]
+    return jsonify({'options': options}), 200

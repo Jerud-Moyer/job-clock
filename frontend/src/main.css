@@ -1,8 +1,9 @@
-@layer theme, primevue, tailwindcss;
+/* @layer tailwind-base, primevue, tailwind-utilities; */
+/* @layer theme, primevue, tailwindcss; */
 
+@import "primeicons/primeicons.css";
 @import "tailwindcss";
 @import "tailwindcss-primeui";
-@import "primeicons/primeicons.css";
 @custom-variant dark (&:where(.p-dark, .p-dark *));
 
 /* Tailwind/Primevue overrides */

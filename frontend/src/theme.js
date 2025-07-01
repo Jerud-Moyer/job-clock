@@ -32,7 +32,7 @@ export default definePreset(Material, {
                     800: '{zinc.800}',
                     900: '{zinc.900}',
                     950: '{zinc.950}'
-                },
+                }
             }
         },
     },
@@ -58,6 +58,15 @@ export default definePreset(Material, {
                 }
             }
         },
+        checkbox: {
+            colorScheme: {
+                dark: {
+                    icon: {
+                        checkedColor: '#000'
+                    }
+                }
+            }
+        },
         tabs : {
             colorScheme: {
                 tab: {
@@ -71,5 +80,6 @@ export default definePreset(Material, {
             },
                 
         }
-    }
+    },
+    
 })
