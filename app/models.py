@@ -70,6 +70,7 @@ class Job(db.Model):
     active = db.Column(db.Boolean, default=True)
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     client = db.relationship('Client', backref=db.backref('jobs', lazy=True))
+    last_clocked = db.Column(db.DateTime, nullable=True)
 
     def __repr__(self):
         return f'<Job {self.title}>'

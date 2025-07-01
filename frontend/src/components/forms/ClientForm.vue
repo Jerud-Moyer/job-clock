@@ -1,5 +1,5 @@
 <script setup>
-import { inject, reactive } from 'vue';
+import { inject, onMounted, reactive, watch } from 'vue';
 import stateOptions from '../../data/state-options';
 import clientApi from '../../utils/api/clients';
 
@@ -13,7 +13,7 @@ const { clientForUpdate } = defineProps({
     },
 })
 
-// const { emit } = defineEmits(['save-client']);
+const emit = defineEmits(['clear-client']);
 
 const clientState = reactive({
     first_name: '',
@@ -33,24 +33,68 @@ const clearForm = () => {
     });
 }
 
-const handleSubmit = () => {
-    clientApi.addClient(clientState)
-        .then(json => {
-            if (json.error) {
-                console.error('Error:', json.error);
-                notify(json.error, 'error');
-                return;
-            } else {
-                notify('Client saved successfully!', 'success');
-                clearForm()
-                console.log('NEW CLIENT => ', json.client);
-            }
-        })
-        .catch(err => {
-            notify(err.message, 'error');
-            console.error('Error saving client:', err);
+const setupForm = () => {
+    if (clientForUpdate) {
+        Object.keys(clientState).forEach(key => {
+            clientState[key] = clientForUpdate[key] || '';
         });
+    } else {
+        clearForm();
+        emit('clear-client');
+    }
 }
+
+const handleSubmit = () => {
+    if(!clientForUpdate) {
+        clientApi.addClient(clientState)
+            .then(json => {
+                if (json.error) {
+                    console.error('Error:', json.error);
+                    notify(json.error, 'error');
+                    return;
+                } else {
+                    notify('Client saved successfully!', 'success');
+                    clearForm()
+                    console.log('NEW CLIENT => ', json.client);
+                }
+            })
+            .catch(err => {
+                notify(err.message, 'error');
+                console.error('Error saving client:', err);
+            });
+    } else {
+        //update
+        clientApi.updateClient(clientForUpdate.id, clientState)
+            .then(json => {
+                if (json.error) {
+                    console.error('Error:', json.error);
+                    notify(json.error, 'error');
+                    return;
+                } else {
+                    notify('Client updated successfully!', 'success');
+                    clearForm();
+                    emit('clear-client');
+                    console.log('UPDATED CLIENT => ', json.client);
+                }
+            })
+            .catch(err => {
+                notify(err.message, 'error');
+                console.error('Error updating client:', err);
+            });
+    }
+}
+
+watch(() => clientForUpdate, (newVal) => {
+    if (newVal) {
+        setupForm();
+    } else {
+        clearForm();
+    }
+}, { immediate: true });
+
+onMounted(() => {
+    setupForm();
+});
 </script>
 
 <template>

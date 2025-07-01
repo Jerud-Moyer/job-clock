@@ -33,7 +33,39 @@ const getClients = async() => {
     }
 }
 
+
+const updateClient = async (id, client) => {
+    try {
+        console.log('HELLO???')
+        const res = await fetch(`/api/clients/update-client/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(client),
+        });
+
+        return await res.json();
+    } catch (err) {
+        console.error('Error updating client: ', err);
+        throw err;
+    }
+}
+
+const getClientOptions = async() => {
+    try{
+        const res = await fetch('/api/clients/get-client-options')
+        
+        return await res.json()
+    } catch(err) {
+        console.error('Encountered problem fetcjhing options: ', err)
+        throw err
+    }
+}
+  
 export default {
     getClients,
     addClient,
+    updateClient,
+    getClientOptions
 }
