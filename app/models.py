@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class TimeEntry(db.Model):
     __tablename__ = 'time_entries'
@@ -47,12 +48,19 @@ class Client(db.Model):
     current_rate = db.Column(db.Float, nullable=False, default=0.0)
 
     def __repr__(self):
-        return f'<Client {self.name}>'
+        return f'<Client {self.name}>'#need to fix
+        
+
+    @hybrid_property
+    def client_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     def to_dict(self):
         return {
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
+            'client_name': self.client_name,
             'email': self.email,
             'phone': self.phone,
             'street_address': self.street_address,
@@ -74,9 +82,13 @@ class Job(db.Model):
 
     def __repr__(self):
         return f'<Job {self.title}>'
+
     def to_dict(self):
         return {
             'id': self.id,
             'title': self.title,
-            'description': self.description
+            'description': self.description,
+            'client': self.client.to_dict(),
+            'client_id': self.client_id,
+            'last_clocked': self.last_clocked
         }
