@@ -31,12 +31,14 @@ const handleClearCient = () => {
 }
 
 onMounted(() => {
-    clientApi.getClients().then(response => {
-        clients.value = response.clients;
-    }).catch(error => {
-        notify(`Error fetching clients ${error}`, 'error');
-        console.error('Error fetching clients:', error);
-    });
+    clientApi.getClients()
+        .then(response => {
+            clients.value = response.clients;
+        })
+        .catch(error => {
+            notify(`Error fetching clients ${error}`, 'error');
+            console.error('Error fetching clients:', error);
+        });
 })
 
 </script>

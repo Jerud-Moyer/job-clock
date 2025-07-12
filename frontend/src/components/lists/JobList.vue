@@ -1,24 +1,22 @@
 <script setup>
-import { inject } from 'vue';
-
-const { clients } = defineProps({
-    clients: {
+const { jobs } = defineProps({
+    jobs: {
         type: Array,
-        required: true,
-    },
+        required: true
+    }
 })
+
 const emit = defineEmits(['init-update'])
-const { notify } = inject('toaster')
 
 const handleInitUpdate = (id) => {
-    emit('init-update', id);
+    emit('init-update', id)
 }
 </script>
 
 <template>
     <div class="">
         <DataTable 
-            :value="clients" 
+            :value="jobs" 
             :paginator="true" 
             :rows="10" 
             :responsiveLayout="'scroll'" 
@@ -26,12 +24,12 @@ const handleInitUpdate = (id) => {
             dataKey="id"
         >
             <template #header>
-                <p class="text-xl text-left">Clients</p>
+                <p class="text-xl text-left">Jobs</p>
             </template>
-            <Column field="last_name" header="Last Name" />
-            <Column field="first_name" header="First Name" />
-            <Column field="email" header="Email" />
-            <Column field="phone" header="Phone" />
+            <Column field="title" header="Title" />
+            <Column field="client.client_name" header="Client" />
+            <Column field="description" header="Description" />
+            <Column field="last_clocked" header="Last Clocked" />
             <Column header="Update" class="text-center">
                 <template #body="slotProps">
                     <Button 
@@ -46,7 +44,3 @@ const handleInitUpdate = (id) => {
         </DataTable>
     </div>
 </template>
-
-<style scoped>
-
-</style>

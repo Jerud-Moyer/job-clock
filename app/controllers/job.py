@@ -26,6 +26,25 @@ def add_job():
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
+@job_controller.route('/update-job/<int:job_id>/', methods=['PUT'])
+def update_job(job_id):
+    data = request.get_json()
+    job = Job.query.get_or_404(job_id)
+
+    job.title = data.get('title', job.title)
+    job.description = data.get('description', job.description)
+    job.active = data.get('active', job.active)
+    job.client_id = data.get('client_id', job.client_id)
+    job.last_clocked = data.get('last_clocked', job.last_clocked)
+
+    db.session.add(job)
+    try:
+        db.session.commit()
+        return jsonify(job.to_dict()), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 400
+
 @job_controller.route('/get-jobs', methods=['GET'])
 def get_jobs():
     jobs = Job.query.all()

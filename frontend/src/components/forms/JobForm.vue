@@ -14,7 +14,7 @@ const { jobForUpdate } = defineProps({
     },
 })
 
-const emit = defineEmits(['clear-job']);
+const emit = defineEmits(['clear-job', 'refresh-list']);
 
 const jobState = reactive({
     title: '',
@@ -35,13 +35,20 @@ const clearForm = () => {
             jobState[key] = '';
         }
     });
+
+    emit('clear-job')
 }
 
 const setupForm = () => {
     if (jobForUpdate) {
         Object.keys(jobState).forEach(key => {
             if(jobForUpdate[key]) {
-                jobState[key] = jobForUpdate[key];
+                if(key == 'client') {
+                    console.log('THIS MY CLIENT ID? ', jobForUpdate[key].id)
+                    jobstate[key] = jobForUpdate[key].id
+                } else {
+                    jobState[key] = jobForUpdate[key]
+                }
             }
         });
     } else {
@@ -61,6 +68,7 @@ const handleSubmit = () => {
                 } else {
                     notify('Job saved successfully!', 'success');
                     clearForm();
+                    emit('refresh-list')
                     console.log('NEW JOB => ', json.job);
                 }
             })
@@ -78,6 +86,7 @@ const handleSubmit = () => {
                 } else {
                     notify('Job updated successfully!', 'success');
                     clearForm();
+                    emit('refresh-list')
                     console.log('UPDATED JOB => ', json.job);
                 }
             })
@@ -89,6 +98,7 @@ const handleSubmit = () => {
 }
 
 watch(() => jobForUpdate, (newVal) => {
+    console.log('THIS WATCHER HIT? ', newVal)
     setupForm();
 }, { immediate: true });
 
@@ -156,7 +166,7 @@ onMounted(() => {
     </div>
     <div class="flex flex-row justify-end gap-6 mt-12">
         <Button
-            label="Add Job"
+            :label="jobForUpdate ? 'Update Job' : 'Add Job'"
             variant="outlined"
             @click="handleSubmit"
         />
