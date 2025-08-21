@@ -35,6 +35,10 @@ h1 {
   line-height: 1.1;
 }
 
+
+th {
+  border-bottom: solid #fff 2px;
+}
 /* button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -61,8 +65,9 @@ button:focus-visible {
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: 80px 1.5rem 1.5rem;
   text-align: center;
+  min-height: 100vh;
 }
 
 @media (prefers-color-scheme: light) {

@@ -7,7 +7,7 @@ class TimeEntry(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     # duration = db.Column(db.Interval, nullable=False)
-    description = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.String(255), nullable=True) # shouldnt this be like 'note' instead if description?
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     client = db.relationship('Client', backref=db.backref('time_entries', lazy=True))
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)

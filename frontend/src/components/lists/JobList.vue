@@ -23,9 +23,9 @@ const handleInitUpdate = (id) => {
             class="w-full"
             dataKey="id"
         >
-            <template #header>
+            <!-- <template #header>
                 <p class="text-xl text-left">Jobs</p>
-            </template>
+            </template> -->
             <Column field="title" header="Title" />
             <Column field="client.client_name" header="Client" />
             <Column field="description" header="Description" />
