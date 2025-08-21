@@ -6,7 +6,7 @@ import TabPanels from 'primevue/tabpanels'
 import Tabs from 'primevue/tabs'
 import ClientForm from '../components/forms/ClientForm.vue'
 import { inject, onMounted, ref } from 'vue'
-import ClientList from '../components/ClientList.vue'
+import ClientList from '../components/lists/ClientList.vue'
 import clientApi from '../utils/api/clients'
 
 const { notify } = inject('toaster')
@@ -45,6 +45,7 @@ onMounted(() => {
 
 <template>
     <div>
+        <p class="text-4xl text-left mb-12 pl-4">Clients</p>
         <Tabs v-model:value="tabsValue" class="w-[900px]">
             <TabList>
                 <Tab value="0" >

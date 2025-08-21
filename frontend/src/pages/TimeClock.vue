@@ -1,13 +1,7 @@
 <template>
   <div>
-    <h2>Time Clock</h2>
-      <router-link to="/">
-        <Button severity="warn">Home Page</Button>
-      </router-link>
-      <div class="flex justify-between w-[900px] border-2">
-        <Button severity="info" variant="outlined">WAIT</Button>
-        <InputText placeholder="WUT..." />
-      </div>
+    <p class="text-4xl text-left mb-12 pl-4">Time Clock</p>
+    
   </div>  
 </template>
 

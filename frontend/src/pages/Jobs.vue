@@ -43,8 +43,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <Tabs v-model:value="tabsValue" class="w-[900px]">
+    <div class="flex flex-col justify-start h-full">
+        <p class="text-4xl text-left mb-12 pl-4">Jobs</p>
+        <Tabs v-model:value="tabsValue" class="w-[900px] ">
             <TabList>
                 <Tab value="0">Job List</Tab>
                 <Tab value="1">Add a Job</Tab>
