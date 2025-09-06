@@ -55,3 +55,9 @@ def get_job(job_id):
     job = Job.query.get_or_404(job_id)
     return jsonify(job.to_dict()), 200
 
+@job_controller.route('/get-job-options', methods=['GET'])
+def get_job_options():
+    jobs = Job.query.all()
+    options = [{'value': job.id, 'label': job.title} for job in jobs]
+    return jsonify({'options': options}), 200
+

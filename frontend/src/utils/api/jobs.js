@@ -44,8 +44,20 @@ const updateJob = async (id, job) => {
     }
 }
 
+const getJobOptions = async () => {
+    try {
+        const res = await fetch('/api/jobs/get-job-options')
+
+        return await res.json()
+    } catch (err) {
+        console.error('There was a problem getting options: ', err)
+        throw err
+    }
+}
+
 export default {
     getJobs,
     addJob,
-    updateJob
+    updateJob,
+    getJobOptions
 }

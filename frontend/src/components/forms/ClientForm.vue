@@ -55,7 +55,6 @@ const handleSubmit = () => {
                 } else {
                     notify('Client saved successfully!', 'success');
                     clearForm()
-                    console.log('NEW CLIENT => ', json.client);
                 }
             })
             .catch(err => {
