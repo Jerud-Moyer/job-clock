@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p class="text-4xl text-left mb-12 pl-4">Time Clock</p>
-    
+    <p class="text-4xl mb-12 pl-4">Time Clock</p>
+    <ClockForm />
   </div>  
 </template>
 
@@ -9,12 +9,10 @@
 import { InputText } from "primevue";
 import { onMounted } from "vue";
 import MainLayout from "../layouts/MainLayout.vue";
+import ClockForm from "../components/forms/ClockForm.vue";
 
 onMounted(() => {
-  fetch('api/say-hello')
-    .then(res => res.json())
-    .then(json => console.log('that work??? => ', json))
-    .catch(err => console.error(err))
+  
 })
 </script>
 

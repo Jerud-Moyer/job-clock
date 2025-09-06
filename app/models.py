@@ -7,7 +7,8 @@ class TimeEntry(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     # duration = db.Column(db.Interval, nullable=False)
-    description = db.Column(db.String(255), nullable=True) # shouldnt this be like 'note' instead if description?
+    notes = db.Column(db.String(255), nullable=True)
+    currently_open = db.Column(db.Boolean, default=False)
     client_id = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     client = db.relationship('Client', backref=db.backref('time_entries', lazy=True))
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
@@ -21,14 +22,24 @@ class TimeEntry(db.Model):
 
     def __repr__(self):
         return f'<TimeEntry {self.id}>'
+
     def to_dict(self):
         return {
             'id': self.id,
             'start_time': self.start_time.isoformat(),
             'end_time': self.end_time.isoformat(),
             'duration': str(self.duration),
-            'description': self.description
+            'notes': self.notes
         }
+
+    # def save(self, session):
+    #     #need to move this stuff to controller!
+    #         if not self.end_time:
+    #             self.end_time = self.start_time
+    #         client_id = session.query(Job).filter(Job.id == self.job_id).first().client_id
+    #         self.client_id = client_id
+    #         session.add(self)
+    #         session.commit()
 
 class Client(db.Model):
     __tablename__ = 'clients'

@@ -3,6 +3,7 @@ import { provide, ref } from 'vue';
 import MainLayout from './layouts/MainLayout.vue'
 import { useToast } from 'primevue';
 
+// notifications
 const toast = useToast()
 
 const icons = {
@@ -24,7 +25,7 @@ const icons = {
   }
 }
 
-const notify = (message, severity) => {
+const notify = (message, severity='success') => {
 
   toast.add({
     severity: severity,
@@ -38,6 +39,31 @@ const notify = (message, severity) => {
 
 provide('toaster', { notify })
 
+// clocked-in
+const isClockedIn = ref(false)
+const jobWorking = ref('')
+const openEntryId = ref(null)
+
+const setClockedStatus = (bool) => {
+  isClockedIn.value = bool
+}
+
+const setJobWorking = (jobName) => {
+  jobWorking.value = jobName
+}
+
+const setOpenEntryId = (id) => {
+  openEntryId.value = id
+}
+
+provide('clocked-status', {
+  isClockedIn,
+  setClockedStatus,
+  jobWorking,
+  setJobWorking,
+  openEntryId,
+  setOpenEntryId
+})
 </script>
 
 <template>
