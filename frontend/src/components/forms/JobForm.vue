@@ -87,7 +87,6 @@ const handleSubmit = () => {
                     notify('Job updated successfully!', 'success');
                     clearForm();
                     emit('refresh-list')
-                    console.log('UPDATED JOB => ', json.job);
                 }
             })
             .catch(err => {
@@ -98,7 +97,6 @@ const handleSubmit = () => {
 }
 
 watch(() => jobForUpdate, (newVal) => {
-    console.log('THIS WATCHER HIT? ', newVal)
     setupForm();
 }, { immediate: true });
 

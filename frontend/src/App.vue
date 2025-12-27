@@ -1,7 +1,8 @@
 <script setup>
-import { provide, ref } from 'vue';
+import { onMounted, provide, ref } from 'vue';
 import MainLayout from './layouts/MainLayout.vue'
 import { useToast } from 'primevue';
+import clockApi from './utils/api/clock'
 
 // notifications
 const toast = useToast()
@@ -43,6 +44,7 @@ provide('toaster', { notify })
 const isClockedIn = ref(false)
 const jobWorking = ref('')
 const openEntryId = ref(null)
+const startTime = ref(null)
 
 const setClockedStatus = (bool) => {
   isClockedIn.value = bool
@@ -56,14 +58,34 @@ const setOpenEntryId = (id) => {
   openEntryId.value = id
 }
 
+const setStartTime = (date) => {
+  startTime.value = date
+}
+
 provide('clocked-status', {
   isClockedIn,
   setClockedStatus,
   jobWorking,
   setJobWorking,
   openEntryId,
-  setOpenEntryId
+  setOpenEntryId,
+  startTime,
+  setStartTime
 })
+
+onMounted(() => {
+  clockApi.checkForOpenEntry()
+    .then(res => {
+      if(res.time_entry) {
+        const tm = res.time_entry
+        setJobWorking(tm.job_name)
+        setOpenEntryId(tm.id)
+        setStartTime(tm.start_time)
+        setClockedStatus(true)
+      }
+    })
+})
+
 </script>
 
 <template>

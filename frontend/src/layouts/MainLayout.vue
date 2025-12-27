@@ -1,8 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, inject, computed } from 'vue';
 import { Toolbar } from 'primevue';
 
+const {
+    startTime,
+    jobWorking
+} = inject('clocked-status')
+
 const activePage = ref('a')
+
+const timeStarted = computed(() => {
+    if(startTime.value) {
+        const date = new Date(startTime.value)
+        return `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`
+    } else return null
+})
 
 const handleActivePage = (ap) => {
     activePage.value = ap
@@ -11,7 +23,16 @@ const handleActivePage = (ap) => {
 
 <template>
 <div class="h-full w-full">
-    <Toolbar class="toolbar w-screen pr-12">
+    <Toolbar class="toolbar w-screen px-12">
+        <template #start>
+            <p class="text-5xl text-primary">JobClock</p>
+        </template>
+        <template #center>
+            <p v-if="jobWorking" class="text-xl">
+                Working on <span class="text-bold text-primary">{{ jobWorking }}</span>
+                &nbsp;&nbsp;since: <span class="text-bold text-primary">{{ timeStarted }}</span>
+            </p>
+        </template>
         <template #end>
             <Button
                 label="Clock"

@@ -73,14 +73,23 @@ def clock_out(entry_id):
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
+@clock_controller.route('/check-for-open-entry')
+def check_for_open():
+    entry = db.session.query(TimeEntry).filter_by(currently_open=True).first()
+    # send found entry or null
+    if entry is not None:
+        return jsonify({'time_entry': entry.to_dict()}), 200
+    
+    return jsonify({'time_entry': None}), 200
+
 @clock_controller.route('/get-entries-by-job')
 def get_entries_by_job(id):
-    entries = session.query(TimeEntry).filter_by(job_id=id).all()
+    entries = db.session.query(TimeEntry).filter_by(job_id=id).all()
     return jsonify({'time_entries': [entry.to_dict() for entry in entries]}), 200
 
 @clock_controller.route('/get-entries-by-client')
 def get_entries_by_client(id):
-    entries = session.query(TimeEntry).filter_by(client_id=id).all()
+    entries = db.session.query(TimeEntry).filter_by(client_id=id).all()
     return jsonify({'time_entries': [entry.to_dict() for entry in entries]}), 200
 
 @clock_controller.route('/delete-entry/<int:entry_id>', methods=['DELETE'])
