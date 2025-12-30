@@ -25,7 +25,15 @@ const handleActivePage = (ap) => {
 <div class="h-full w-full">
     <Toolbar class="toolbar w-screen px-12">
         <template #start>
-            <p class="text-5xl text-primary">JobClock</p>
+            <p class="text-5xl text-primary flex">
+                JobCl
+                <span class="clock-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="currentcolor">
+                        <path stroke="currentcolor" stroke-width="18" d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"/>
+                    </svg>
+                </span>
+                ck
+            </p>
         </template>
         <template #center>
             <p v-if="jobWorking" class="text-xl">
@@ -79,6 +87,10 @@ const handleActivePage = (ap) => {
         &.active {
             border-bottom: solid var(--p-sky-400) 2px;
         } 
+    }
+
+    .clock-icon {
+        transform: translateY(14px);
     }
 }
 </style>
