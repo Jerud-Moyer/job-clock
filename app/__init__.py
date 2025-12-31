@@ -10,7 +10,16 @@ def create_app():
     print("Database URL:", os.getenv('DATABASE_URL'))
     app = Flask(__name__, static_folder='../dist', static_url_path='/')
     CORS(app, resources={r"/api/*": {"origins": "*"}})
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
+    uri = os.getenv("DATABASE_URL")
+    print('HERE IT IS!!!! ')
+    print(uri)
+    if uri.startswith("postgres://"):
+        print('DO WE EVEN GET IT HERE THOUGH???')
+        uri = uri.replace("postgres://", "postgresql://", 1)
+        print(uri)
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
 
     db.init_app(app)
     migrate = Migrate(app, db)
