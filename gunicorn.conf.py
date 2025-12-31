@@ -10,3 +10,7 @@ for env_file in ('.env', '.flaskenv'):
   env = os.path.join(os.getcwd(), env_file)
   if os.path.exists(env):
     load_dotenv(env)
+
+uri = os.getenv("DATABASE_URL")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
