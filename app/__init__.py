@@ -12,12 +12,9 @@ def create_app():
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     uri = os.getenv("DATABASE_URL")
-    print('HERE IT IS!!!! ')
-    print(uri)
+    
     if uri.startswith("postgres://"):
-        print('DO WE EVEN GET IT HERE THOUGH???')
         uri = uri.replace("postgres://", "postgresql://", 1)
-        print(uri)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = uri
 
@@ -29,8 +26,7 @@ def create_app():
     app.register_blueprint(api, url_prefix='/api')
     @app.route('/', defaults={'path': ''})
     @app.route('/<string:path>')
-    @app.route('/<path:path>', methods=['GET']) # might need to revisit this? Could interfere with API routes
-    # I think we will have to register API routes here?
+    @app.route('/<path:path>', methods=['GET'])
 
     def catch_all(path):
         return send_from_directory(app.static_folder, 'index.html')
