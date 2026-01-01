@@ -38,16 +38,18 @@ const handleClockIn = () => {
         // setClockedStatus(true)
 
         const dateTime = new Date()
-
+        console.log('DATETIME => ', dateTime)
+        console.log()
         const entry = {
             start_time: dateTime.toISOString(),
             job_id: selectedJob.value.value,
             notes: notes.value
         }
 
+        console.log('NEW ENTRY HERE, WUT TIME??? ', entry)
+
         clockApi.addEntry(entry)
             .then(res => {
-                console.log('we got entry! ', res)
                 if(res.time_entry) {
                     notify(`Clocked into ${jobWorking.value}`)
                     setJobWorking(selectedJob.value.label)
@@ -70,7 +72,7 @@ const handleClockOut = () => {
     clockApi.clockOut(entryId)
         .then(res => {
             if(res.time_entry) {
-                console.log('clocked out successfully: ', res.entry)
+                console.log('clocked out successfully: ', res.time_entry)
                 notify(`Clocked out of ${jobWorking.value}`)
                 setClockedStatus(false)
                 setJobWorking(null)
