@@ -45,8 +45,20 @@ const checkForOpenEntry = async() => {
     }
 }
 
+const setTvTimer = async() => {
+    try {
+        const res = await fetch('/api/clock/set-tv-sleep-timer')
+
+        return await res.json()
+    } catch(err) {
+        console.error('NO LUCK PAL!!! ', err)
+        throw err
+    }
+}
+
 export default {
     addEntry,
     clockOut,
-    checkForOpenEntry
+    checkForOpenEntry,
+    setTvTimer
 }
