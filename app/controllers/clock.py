@@ -105,15 +105,19 @@ def delete_entry(entry_id):
 
 @clock_controller.route('/set-tv-sleep-timer')
 def set_tv_timer():
+    print('WAAAAAAAAAIIIIIIIIIIIT')
+    try:
+        def shut_off():
+            print('WUUUUUUUUUUUUUUUUUUUUUUUUT')
+            request.urlopen('https://app1.sofabaton.com/app/keypress?node_id=fpRXbAn3WZxJWDj5qpKQbA&id=fpRXbAn101&type=0').read()
 
-    def shut_off():
-        request.urlopen('https://app1.sofabaton.com/app/keypress?node_id=fpRXbAn3WZxJWDj5qpKQbA&id=fpRXbAn101&type=0').read()
+        # Set the delay in seconds
+        delay = 30
 
-    # Set the delay in seconds
-    delay = 30
+        # Create a timer object
+        timer = threading.Timer(delay, shut_off)
 
-    # Create a timer object
-    timer = threading.Timer(delay, shut_off)
-
-    # Start the timer
-    timer.start()
+        # Start the timer
+        timer.start()
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
