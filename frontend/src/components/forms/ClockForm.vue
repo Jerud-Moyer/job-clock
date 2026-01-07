@@ -85,6 +85,11 @@ const handleClockOut = () => {
 
 }
 
+const handleTvSleep = () => {
+    clockApi.setTvTimer()
+        .then(res => console.log('WUUUUUT CLOCK???? ', res))
+}
+
 onMounted(() => {
     jobApi.getJobOptions()
         .then(res => {
@@ -128,6 +133,14 @@ onMounted(() => {
                 label="Clock In"
                 rounded
                 @click="handleClockIn"
+            />
+        </div>
+        <div class="mt-6">
+            <Button
+                icon="pi pi-clock"
+                label="Sleep!"
+                rounded
+                @click="handleTvSleep"
             />
         </div>
     </div>

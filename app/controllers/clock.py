@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from app.models import TimeEntry, Client, Job
 from app import db
+import urllib.request as request
+import threading
 
 clock_controller = Blueprint('clock_controller', __name__)
 
@@ -100,3 +102,18 @@ def delete_entry(entry_id):
         return jsonify({'message': 'Entry deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@clock_controller.route('/set-tv-sleep-timer')
+def set_tv_timer():
+
+    def shut_off():
+        request.urlopen('https://app1.sofabaton.com/app/keypress?node_id=fpRXbAn3WZxJWDj5qpKQbA&id=fpRXbAn101&type=0').read()
+
+    # Set the delay in seconds
+    delay = 30
+
+    # Create a timer object
+    timer = threading.Timer(delay, shut_off)
+
+    # Start the timer
+    timer.start()
