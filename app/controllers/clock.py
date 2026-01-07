@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import TimeEntry, Client, Job
 from app import db
 import urllib.request as request
-import threading
+import threading, os
 
 clock_controller = Blueprint('clock_controller', __name__)
 
@@ -105,19 +105,18 @@ def delete_entry(entry_id):
 
 @clock_controller.route('/set-tv-sleep-timer')
 def set_tv_timer():
-    print('WAAAAAAAAAIIIIIIIIIIIT')
+    print('INITIATING TV SHUTDOWN SEQUENCE')
     try:
         def shut_off():
-            print('WUUUUUUUUUUUUUUUUUUUUUUUUT')
-            request.urlopen('https://app1.sofabaton.com/app/keypress?node_id=fpRXbAn3WZxJWDj5qpKQbA&id=fpRXbAn101&type=0').read()
+            print('SHUTTING DOWN NOW')
+            TV_SHUTDOWN_URL = os.getenv('TV_SHUTDOWN_URL')
+            request.urlopen(TV_SHUTDOWN_URL).read()
 
-        # Set the delay in seconds
-        delay = 30
+        # Set the delay in seconds / 90 mins
+        delay = 5400
 
-        # Create a timer object
         timer = threading.Timer(delay, shut_off)
-
-        # Start the timer
         timer.start()
+        return jsonify({'message': 'TV shutting down in 90 minutes!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
