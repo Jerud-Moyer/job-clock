@@ -15,10 +15,12 @@ const {
     setStartTime
 } = inject('clocked-status')
 
+const emit = defineEmits(['clocked-out'])
+
 const jobOptions = ref([])
 const filteredJobOptions = ref([])
 const selectedJob = ref(null)
-const notes = ref('')
+const notes = ref(null)
 
 const searchJobOptions = (event) => {
     setTimeout(() => {
@@ -30,6 +32,11 @@ const searchJobOptions = (event) => {
             });
         }
     }, 250);
+}
+
+const clearForm = () => {
+    selectedJob.value = null
+    notes.value = null
 }
 
 const handleClockIn = () => {
@@ -45,8 +52,6 @@ const handleClockIn = () => {
             job_id: selectedJob.value.value,
             notes: notes.value
         }
-
-        console.log('NEW ENTRY HERE, WUT TIME??? ', entry)
 
         clockApi.addEntry(entry)
             .then(res => {
@@ -82,12 +87,11 @@ const handleClockOut = () => {
             console.error(err)
             notify('There was a problem clocking you out', 'error')
         })
+        .finally(() =>{
+            emit('clocked-out')
+            clearForm()
+        })
 
-}
-
-const handleTvSleep = () => {
-    clockApi.setTvTimer()
-        .then(res => console.log('WUUUUUT CLOCK???? ', res))
 }
 
 onMounted(() => {
@@ -133,14 +137,6 @@ onMounted(() => {
                 label="Clock In"
                 rounded
                 @click="handleClockIn"
-            />
-        </div>
-        <div class="mt-6">
-            <Button
-                icon="pi pi-clock"
-                label="Sleep!"
-                rounded
-                @click="handleTvSleep"
             />
         </div>
     </div>

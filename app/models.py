@@ -30,7 +30,8 @@ class TimeEntry(db.Model):
             'end_time': self.end_time.isoformat(),
             'duration': str(self.duration),
             'notes': self.notes,
-            'job_name': self.job.title
+            'job_name': self.job.title,
+            'client_name': self.client.client_name
         }
 
     # def save(self, session):

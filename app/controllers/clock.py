@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import TimeEntry, Client, Job
 from app import db
-import urllib.request as request
+# import urllib.request as request
 import threading, os
 
 clock_controller = Blueprint('clock_controller', __name__)
@@ -43,10 +43,12 @@ def update_entry(entry_id):
     data = request.get_json()
     entry = TimeEntry.query.get_or_404(entry_id)
 
+    c_id = db.session.query(Job).filter(Job.id == data['job_id']).first().client_id
+
     entry.start_time = data.get('start_time', entry.start_time)
     entry.end_time = data.get('end_time', entry.end_time)
     entry.notes = data.get('notes', entry.notes)
-    entry.client_id = data.get('client_id', entry.client_id)
+    entry.client_id = c_id
     entry.job_id = data.get('job_id', entry.job_id)
     entry.currently_open = False
 
@@ -89,6 +91,18 @@ def get_entries_by_job(id):
     entries = db.session.query(TimeEntry).filter_by(job_id=id).all()
     return jsonify({'time_entries': [entry.to_dict() for entry in entries]}), 200
 
+@clock_controller.route('/get-entries-by-date', methods=['POST'])
+def get_entries_by_date():
+    data = request.get_json()
+
+    entries_in_range = db.session.query(TimeEntry).filter(
+        TimeEntry.start_time >= data['start_time'],
+        TimeEntry.end_time <= data['end_time'],
+        TimeEntry.end_time != TimeEntry.start_time
+    ).all()
+
+    return jsonify({'time_entries': [entry.to_dict() for entry in entries_in_range]}), 200
+
 @clock_controller.route('/get-entries-by-client')
 def get_entries_by_client(id):
     entries = db.session.query(TimeEntry).filter_by(client_id=id).all()
@@ -100,23 +114,5 @@ def delete_entry(entry_id):
     try:
         entry.delete()
         return jsonify({'message': 'Entry deleted successfully'}), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
-
-@clock_controller.route('/set-tv-sleep-timer')
-def set_tv_timer():
-    print('INITIATING TV SHUTDOWN SEQUENCE')
-    try:
-        def shut_off():
-            print('SHUTTING DOWN NOW')
-            TV_SHUTDOWN_URL = os.getenv('TV_SHUTDOWN_URL')
-            request.urlopen(TV_SHUTDOWN_URL).read()
-
-        # Set the delay in seconds / 90 mins
-        delay = 5400
-
-        timer = threading.Timer(delay, shut_off)
-        timer.start()
-        return jsonify({'message': 'TV shutting down in 90 minutes!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 400

@@ -45,14 +45,22 @@ const checkForOpenEntry = async() => {
     }
 }
 
-const setTvTimer = async() => {
+const getEntriesByDateRange = async(dates) => {
+    // datesType: {
+    //     start_time: ISODate,
+    //     end_time: ISODate
+    // }
     try {
-        const res = await fetch('/api/clock/set-tv-sleep-timer')
-
+        const res = await fetch('api/clock/get-entries-by-date', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dates)
+        })
         return await res.json()
     } catch(err) {
-        console.error('NO LUCK PAL!!! ', err)
-        throw err
+        console.error('There was a problem fetching time-entries ', err)
     }
 }
 
@@ -60,5 +68,5 @@ export default {
     addEntry,
     clockOut,
     checkForOpenEntry,
-    setTvTimer
+    getEntriesByDateRange
 }
