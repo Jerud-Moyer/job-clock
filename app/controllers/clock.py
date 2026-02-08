@@ -52,11 +52,11 @@ def update_entry(entry_id):
     entry.job_id = data.get('job_id', entry.job_id)
     entry.currently_open = False
 
-    db.session.add(new_entry)
+    db.session.add(entry)
 
     try:
         db.session.commit()
-        return jsonify({'time_entry': new_entry.to_dict()}), 200
+        return jsonify({'time_entry': entry.to_dict()}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
@@ -103,6 +103,11 @@ def get_entries_by_date():
 
     return jsonify({'time_entries': [entry.to_dict() for entry in entries_in_range]}), 200
 
+@clock_controller.route('/get-entry-by-id/<int:id>')
+def get_entry_by_id(id):
+    entry = TimeEntry.query.get_or_404(id)
+    return jsonify({'time_entry': entry.to_dict()})
+
 @clock_controller.route('/get-entries-by-client')
 def get_entries_by_client(id):
     entries = db.session.query(TimeEntry).filter_by(client_id=id).all()
@@ -111,8 +116,10 @@ def get_entries_by_client(id):
 @clock_controller.route('/delete-entry/<int:entry_id>', methods=['DELETE'])
 def delete_entry(entry_id):
     entry = TimeEntry.query.get_or_404(entry_id)
+    db.session.delete(entry)
     try:
-        entry.delete()
+        db.session.commit()
         return jsonify({'message': 'Entry deleted successfully'}), 200
     except Exception as e:
+        db.session.rollback()
         return jsonify({'error': str(e)}), 400

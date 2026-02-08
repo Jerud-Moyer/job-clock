@@ -36,12 +36,13 @@ onMounted(() => {
   <div>
     <p class="text-4xl mb-4 pl-4">Time Clock</p>
     <ClockForm 
-      @clocked-out="() => getTodaysEntries()"
+      @clocked-out="getTodaysEntries"
     />
     <EntryList
       v-if="todaysEntries.length" 
       class="mt-12" 
       :entries="todaysEntries" 
+      @refresh-list="getTodaysEntries"
     />
   </div>  
 </template>

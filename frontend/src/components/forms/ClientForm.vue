@@ -221,7 +221,8 @@ onMounted(() => {
             />
             <Button
                 label="Clear Form"
-                severity="secondary"
+                severity="warn"
+                variant="outlined"
                 @click="clearForm"
             />
         </div>

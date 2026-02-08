@@ -31,6 +31,7 @@ class TimeEntry(db.Model):
             'duration': str(self.duration),
             'notes': self.notes,
             'job_name': self.job.title,
+            'job_id': self.job.id,
             'client_name': self.client.client_name
         }
 

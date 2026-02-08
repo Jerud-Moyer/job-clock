@@ -34,6 +34,36 @@ const clockOut = async(entryId) => {
     }
 }
 
+const updateEntry = async(entry) => {
+    try {
+        const res = await fetch(`/api/clock/update-entry/${entry.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(entry)
+        })
+
+        return await res.json()
+    } catch(err) {
+        console.error('There was a problem updating that entry: ', err)
+        throw err
+    }
+}
+
+const deleteEntry = async(id) => {
+    try {
+        const res = await fetch(`/api/clock/delete-entry/${id}`, {
+            method: 'DELETE'
+        })
+
+        return await res.json()
+    } catch(err) {
+        console.error('There was a problem deleting that entry: ', err)
+        throw err
+    }
+}
+
 const checkForOpenEntry = async() => {
     try {
         const res = await fetch('/api/clock/check-for-open-entry')
@@ -41,6 +71,17 @@ const checkForOpenEntry = async() => {
         return await res.json()
     } catch(err) {
         console.error('There was a problem checking for an open entry: ', err)
+        throw err
+    }
+}
+
+const getEntryById = async(id) => {
+    try {
+        const res = await fetch(`/api/clock/get-entry-by-id/${id}`)
+
+        return await res.json()
+    } catch(err) {
+        console.error('Could not find that entry')
         throw err
     }
 }
@@ -67,6 +108,9 @@ const getEntriesByDateRange = async(dates) => {
 export default {
     addEntry,
     clockOut,
+    updateEntry,
+    deleteEntry,
     checkForOpenEntry,
+    getEntryById,
     getEntriesByDateRange
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref, watch } from 'vue';
 import jobApi from '../../utils/api/jobs'
 import clockApi from '../../utils/api/clock'
 
@@ -45,8 +45,6 @@ const handleClockIn = () => {
         // setClockedStatus(true)
 
         const dateTime = new Date()
-        console.log('DATETIME => ', dateTime)
-        console.log()
         const entry = {
             start_time: dateTime.toISOString(),
             job_id: selectedJob.value.value,
@@ -56,11 +54,11 @@ const handleClockIn = () => {
         clockApi.addEntry(entry)
             .then(res => {
                 if(res.time_entry) {
-                    notify(`Clocked into ${jobWorking.value}`)
                     setJobWorking(selectedJob.value.label)
                     setClockedStatus(true)
                     setOpenEntryId(res.time_entry.id)
                     setStartTime(res.time_entry.start_time)
+                    notify(`Clocked into ${jobWorking.value}`)
                 }
             }) 
             .catch(err => {
@@ -109,7 +107,7 @@ onMounted(() => {
         v-if="!isClockedIn" 
         class="flex flex-col h-full justify-center items-center"
     >
-        <div class="mt-12">
+        <div class="mt-6">
             <FloatLabel variant="on">
                 <AutoComplete 
                     v-model="selectedJob"
