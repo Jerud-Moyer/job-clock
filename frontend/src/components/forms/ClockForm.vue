@@ -133,6 +133,7 @@ onMounted(() => {
             <Button
                 icon="pi pi-clock"
                 label="Clock In"
+                variant="outlined"
                 rounded
                 @click="handleClockIn"
             />
@@ -157,6 +158,7 @@ onMounted(() => {
                 severity="warn"
                 icon="pi pi-clock"
                 label="Clock Out"
+                variant="outlined"
                 rounded
                 @click="handleClockOut"
             />
