@@ -10,7 +10,6 @@ def job():
 
 @job_controller.route('/add-job', methods=['POST'])
 def add_job():
-    print('HELLO JOBS')
     data = request.get_json()
     print(data)
     new_job = Job(

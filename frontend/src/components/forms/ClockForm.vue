@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref, watch } from 'vue';
 import jobApi from '../../utils/api/jobs'
 import clockApi from '../../utils/api/clock'
 
@@ -15,10 +15,12 @@ const {
     setStartTime
 } = inject('clocked-status')
 
+const emit = defineEmits(['clocked-out'])
+
 const jobOptions = ref([])
 const filteredJobOptions = ref([])
 const selectedJob = ref(null)
-const notes = ref('')
+const notes = ref(null)
 
 const searchJobOptions = (event) => {
     setTimeout(() => {
@@ -32,30 +34,31 @@ const searchJobOptions = (event) => {
     }, 250);
 }
 
+const clearForm = () => {
+    selectedJob.value = null
+    notes.value = null
+}
+
 const handleClockIn = () => {
     if(selectedJob.value) {
         // setJobWorking(selectedJob.value.label)
         // setClockedStatus(true)
 
         const dateTime = new Date()
-        console.log('DATETIME => ', dateTime)
-        console.log()
         const entry = {
             start_time: dateTime.toISOString(),
             job_id: selectedJob.value.value,
             notes: notes.value
         }
 
-        console.log('NEW ENTRY HERE, WUT TIME??? ', entry)
-
         clockApi.addEntry(entry)
             .then(res => {
                 if(res.time_entry) {
-                    notify(`Clocked into ${jobWorking.value}`)
                     setJobWorking(selectedJob.value.label)
                     setClockedStatus(true)
                     setOpenEntryId(res.time_entry.id)
                     setStartTime(res.time_entry.start_time)
+                    notify(`Clocked into ${jobWorking.value}`)
                 }
             }) 
             .catch(err => {
@@ -82,12 +85,11 @@ const handleClockOut = () => {
             console.error(err)
             notify('There was a problem clocking you out', 'error')
         })
+        .finally(() =>{
+            emit('clocked-out')
+            clearForm()
+        })
 
-}
-
-const handleTvSleep = () => {
-    clockApi.setTvTimer()
-        .then(res => console.log('WUUUUUT CLOCK???? ', res))
 }
 
 onMounted(() => {
@@ -105,7 +107,7 @@ onMounted(() => {
         v-if="!isClockedIn" 
         class="flex flex-col h-full justify-center items-center"
     >
-        <div class="mt-12">
+        <div class="mt-6">
             <FloatLabel variant="on">
                 <AutoComplete 
                     v-model="selectedJob"
@@ -133,14 +135,6 @@ onMounted(() => {
                 label="Clock In"
                 rounded
                 @click="handleClockIn"
-            />
-        </div>
-        <div class="mt-6">
-            <Button
-                icon="pi pi-clock"
-                label="Sleep!"
-                rounded
-                @click="handleTvSleep"
             />
         </div>
     </div>

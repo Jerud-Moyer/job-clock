@@ -34,6 +34,36 @@ const clockOut = async(entryId) => {
     }
 }
 
+const updateEntry = async(entry) => {
+    try {
+        const res = await fetch(`/api/clock/update-entry/${entry.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(entry)
+        })
+
+        return await res.json()
+    } catch(err) {
+        console.error('There was a problem updating that entry: ', err)
+        throw err
+    }
+}
+
+const deleteEntry = async(id) => {
+    try {
+        const res = await fetch(`/api/clock/delete-entry/${id}`, {
+            method: 'DELETE'
+        })
+
+        return await res.json()
+    } catch(err) {
+        console.error('There was a problem deleting that entry: ', err)
+        throw err
+    }
+}
+
 const checkForOpenEntry = async() => {
     try {
         const res = await fetch('/api/clock/check-for-open-entry')
@@ -45,20 +75,42 @@ const checkForOpenEntry = async() => {
     }
 }
 
-const setTvTimer = async() => {
+const getEntryById = async(id) => {
     try {
-        const res = await fetch('/api/clock/set-tv-sleep-timer')
+        const res = await fetch(`/api/clock/get-entry-by-id/${id}`)
 
         return await res.json()
     } catch(err) {
-        console.error('NO LUCK PAL!!! ', err)
+        console.error('Could not find that entry')
         throw err
+    }
+}
+
+const getEntriesByDateRange = async(dates) => {
+    // datesType: {
+    //     start_time: ISODate,
+    //     end_time: ISODate
+    // }
+    try {
+        const res = await fetch('api/clock/get-entries-by-date', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dates)
+        })
+        return await res.json()
+    } catch(err) {
+        console.error('There was a problem fetching time-entries ', err)
     }
 }
 
 export default {
     addEntry,
     clockOut,
+    updateEntry,
+    deleteEntry,
     checkForOpenEntry,
-    setTvTimer
+    getEntryById,
+    getEntriesByDateRange
 }

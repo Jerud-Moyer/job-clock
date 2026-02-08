@@ -1,7 +1,7 @@
 <script setup>
 import { ref, inject, computed } from 'vue';
 import { Toolbar } from 'primevue';
-import { getLocalDateTime } from '../utils/utils';
+import { getLocalDateTime, getReadableDate } from '../utils/utils';
 
 const {
     startTime,
@@ -12,10 +12,7 @@ const activePage = ref('a')
 
 const timeStarted = computed(() => {
     if(startTime.value) {
-        const date = getLocalDateTime(startTime.value)
-        const dateHere = date.toLocaleDateString()
-        const timeHere = date.toLocaleTimeString()
-        return `${dateHere} - ${timeHere}`
+        return getReadableDate(startTime.value)
     } else return null
 })
 
