@@ -8,6 +8,10 @@ const { entries } = defineProps({
     entries: {
         type: Array,
         required: true
+   },
+   tableHeader: {
+        type: String,
+        default: ''
    }
 })
 
@@ -47,7 +51,7 @@ const handleInitUpdate = (id) => {
         data-key="id"
     >
         <template #header>
-            <p class="text-lg">Today's Time Entries</p>
+            <p class="text-lg">{{ tableHeader }}</p>
         </template>
         <Column field="client_name" header="Client"/>
         <Column field="job_name" header="Job"/>

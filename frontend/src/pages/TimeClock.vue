@@ -42,6 +42,7 @@ onMounted(() => {
       v-if="todaysEntries.length" 
       class="mt-12" 
       :entries="todaysEntries" 
+      table-header="Today's Time Entries"
       @refresh-list="getTodaysEntries"
     />
   </div>  
