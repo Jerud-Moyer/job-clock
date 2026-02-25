@@ -30,8 +30,9 @@ const handleEmitGetFilteredEntries = () => {
 </script>
 
 <template>
-<div>
-    <div class="container flex flex-col border-2 border-sky-600 rounded-lg pt-6">
+<div class="flex flex-row justify-center">
+    <div class="container flex flex-col max-w-fit bg-surface-900 rounded-lg pt-6">
+        <p class="text-xl text-left px-8 mb-6">Filters</p>
         <div class="flex flex-row">
             <div class="px-6">
                 <FloatLabel
@@ -92,7 +93,7 @@ const handleEmitGetFilteredEntries = () => {
                 </FloatLabel>
             </div>
         </div>
-        <div class="flex flex-row justify-end">
+        <div class="flex flex-row justify-end p-6">
             <Button
                 label="Submit"
                 variant="outlined"

@@ -4,9 +4,13 @@ import EntryForm from '../forms/EntryForm.vue';
 import clockApi from '../../utils/api/clock';
 
 
-const { entries } = defineProps({
+const { entries, totalHours, tableHeader } = defineProps({
     entries: {
         type: Array,
+        required: true
+   },
+   totalHours: {
+        type: Number,
         required: true
    },
    tableHeader: {
@@ -42,23 +46,23 @@ const handleInitUpdate = (id) => {
 </script>
 
 <template>
-<div>
+<div class="">
     <DataTable
         :value="entries"
         :rows="rowsNum"
         :responsiveLayout="'scroll'"
-        class="w-full"
+        class="w-full rounded-lg"
         data-key="id"
     >
         <template #header>
-            <p class="text-lg">{{ tableHeader }}</p>
+            <p class="text-lg px-6">{{ tableHeader }}</p>
         </template>
         <Column field="client_name" header="Client"/>
         <Column field="job_name" header="Job"/>
+        <Column field="notes" header="Notes"/>
         <Column field="start_time" header="Started"/>
         <Column field="end_time" header="Finished"/>
         <Column field="duration" header="Duration"/>
-        <Column field="notes" header="Notes"/>
         <Column header="Update" class="text-center">
             <template #body="slotProps">
                 <Button 
@@ -70,6 +74,12 @@ const handleInitUpdate = (id) => {
                 />
             </template>
         </Column>
+        <ColumnGroup type="footer">
+            <Row>
+                <Column footer="Total Hours:" :colspan="5" footerStyle="text-align:right"/>
+                <Column :footer="totalHours" :colspan="2" />
+            </Row>
+        </ColumnGroup>
     </DataTable>
     <Dialog
         v-model:visible="showEntryForm"

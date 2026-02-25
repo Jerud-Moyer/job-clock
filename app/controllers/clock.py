@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import TimeEntry, Client, Job
 from app import db
 # import urllib.request as request
+from datetime import timedelta
 import threading, os
 
 clock_controller = Blueprint('clock_controller', __name__)
@@ -101,7 +102,16 @@ def get_entries_by_date():
         TimeEntry.end_time != TimeEntry.start_time
     ).all()
 
-    return jsonify({'time_entries': [entry.to_dict() for entry in entries_in_range]}), 200
+    total_hours = timedelta()
+
+    for entry in entries_in_range:
+        hours = entry.end_time - entry.start_time
+        total_hours += hours
+
+    return jsonify({
+        'time_entries': [entry.to_dict() for entry in entries_in_range],
+        'total_hours': str(total_hours)    
+    }), 200
 
 @clock_controller.route('/get-filtered-entries', methods=['POST'])
 def get_filtered_entries():
@@ -124,7 +134,16 @@ def get_filtered_entries():
 
     filtered_entries = query.all()
 
-    return jsonify({'time_entries': [entry.to_dict() for entry in filtered_entries]}), 200
+    total_hours = timedelta()
+
+    for entry in filtered_entries:
+        hours = entry.end_time - entry.start_time
+        total_hours += hours
+
+    return jsonify({
+        'time_entries': [entry.to_dict() for entry in filtered_entries],
+        'total_hours': str(total_hours)    
+    }), 200
 
 @clock_controller.route('/get-entry-by-id/<int:id>')
 def get_entry_by_id(id):
