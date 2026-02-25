@@ -9,4 +9,5 @@
 - npm run build - build local then push
 
 ## SERVER
-- gunicorn wsgi:app
+- gunicorn wsgi:app - production
+- gunicorn wsgi:app --reload - dev
