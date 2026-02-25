@@ -1,10 +1,10 @@
 <script setup>
 import { inject, onMounted, reactive, ref, watch } from 'vue';
 import jobApi from '../../utils/api/jobs';
-import clientApi from '../../utils/api/clients'
 import { Checkbox } from 'primevue';
 
 const { notify } = inject('toaster')
+const { clientOptions } = inject('options-store')
 
 const { jobForUpdate } = defineProps({
     jobForUpdate: {
@@ -22,8 +22,6 @@ const jobState = reactive({
     client_id: null,
     active: true,
 });
-
-const clientOptions = ref([])
 
 const clearForm = () => {
     Object.keys(jobState).forEach(key => {
@@ -44,7 +42,6 @@ const setupForm = () => {
         Object.keys(jobState).forEach(key => {
             if(jobForUpdate[key]) {
                 if(key == 'client') {
-                    console.log('THIS MY CLIENT ID? ', jobForUpdate[key].id)
                     jobstate[key] = jobForUpdate[key].id
                 } else {
                     jobState[key] = jobForUpdate[key]
@@ -69,7 +66,6 @@ const handleSubmit = () => {
                     notify('Job saved successfully!', 'success');
                     clearForm();
                     emit('refresh-list')
-                    console.log('NEW JOB => ', json.job);
                 }
             })
             .catch(err => {
@@ -102,9 +98,6 @@ watch(() => jobForUpdate, (newVal) => {
 
 onMounted(() => {
     setupForm();
-    clientApi.getClientOptions()
-        .then(res => clientOptions.value = res.options)
-        .catch(err => notify(`There has been a problem: ${err}`, 'error'))
 });
 
 </script>

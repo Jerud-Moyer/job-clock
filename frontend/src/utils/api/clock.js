@@ -105,6 +105,21 @@ const getEntriesByDateRange = async(dates) => {
     }
 }
 
+const getFilteredEntries = async(filterData) => {
+    try {
+        const res = await fetch('api/clock/get-filtered-entries', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(filterData)
+        })
+        return await res.json()
+    } catch(err) {
+        console.error('There wa a problem getting filtered results. ', err)
+    }
+}
+
 export default {
     addEntry,
     clockOut,
@@ -112,5 +127,6 @@ export default {
     deleteEntry,
     checkForOpenEntry,
     getEntryById,
-    getEntriesByDateRange
+    getEntriesByDateRange,
+    getFilteredEntries
 }

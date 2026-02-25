@@ -6,6 +6,7 @@ import clockApi from '../utils/api/clock'
 import { getReadableDate } from "../utils/utils";
 
 const todaysEntries = ref([])
+const totalHours = ref(null)
 
 const getTodaysEntries = () => {
   const midnight = new Date()
@@ -16,15 +17,17 @@ const getTodaysEntries = () => {
     start_time: midnight.toISOString(),
     end_time: endOfDay.toISOString()
   })
-    .then(json => {
-      console.log(json)
-      todaysEntries.value = json.time_entries.map(entry => ({
+    .then(({ time_entries, total_hours }) => {
+      todaysEntries.value = time_entries.map(entry => ({
         ...entry,
         start_time: getReadableDate(entry.start_time),
         end_time: getReadableDate(entry.end_time),
         duration: entry.duration.slice(0, String(entry.duration).indexOf('.'))
       }))
+      
+      totalHours.value = total_hours.slice(0, total_hours.indexOf('.'))
     })
+
 }
 
 onMounted(() => {
@@ -42,6 +45,8 @@ onMounted(() => {
       v-if="todaysEntries.length" 
       class="mt-12" 
       :entries="todaysEntries" 
+      :total-hours="totalHours"
+      table-header="Today's Time Entries"
       @refresh-list="getTodaysEntries"
     />
   </div>  

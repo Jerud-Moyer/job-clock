@@ -52,13 +52,22 @@ const handleActivePage = (ap) => {
                 @click="() => handleActivePage('a')"
             /> 
             <Button
+                label="Sheets"
+                as="router-link"
+                to="/sheets"
+                severity="secondary"
+                text
+                :class="activePage == 'b' ? 'active' : ''"
+                @click="() => handleActivePage('b')"
+            /> 
+            <Button
                 label="Jobs"
                 as="router-link"
                 to="/jobs"
                 severity="secondary"
                 text
-                :class="activePage == 'b' ? 'active' : ''"
-                @click="() => handleActivePage('b')"
+                :class="activePage == 'c' ? 'active' : ''"
+                @click="() => handleActivePage('c')"
             />  
             <Button
                 label="Clients"
@@ -66,8 +75,8 @@ const handleActivePage = (ap) => {
                 to="/clients"
                 severity="secondary"
                 text
-                :class="activePage == 'c' ? 'active' : ''"
-                @click="() => handleActivePage('c')"
+                :class="activePage == 'd' ? 'active' : ''"
+                @click="() => handleActivePage('d')"
             />  
         </template>
     </Toolbar>

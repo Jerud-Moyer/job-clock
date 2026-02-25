@@ -3,6 +3,8 @@ import { onMounted, provide, ref } from 'vue';
 import MainLayout from './layouts/MainLayout.vue'
 import { useToast } from 'primevue';
 import clockApi from './utils/api/clock'
+import joBApi from './utils/api/jobs'
+import clientApi from './utils/api/clients'
 
 // notifications
 const toast = useToast()
@@ -73,6 +75,15 @@ provide('clocked-status', {
   setStartTime
 })
 
+// options for select elements
+const clientOptions = ref([])
+const jobOptions = ref([])
+
+provide('options-store', {
+  jobOptions,
+  clientOptions
+})
+
 onMounted(() => {
   clockApi.checkForOpenEntry()
     .then(res => {
@@ -84,6 +95,14 @@ onMounted(() => {
         setClockedStatus(true)
       }
     })
+
+  joBApi.getJobOptions()
+    .then(res => jobOptions.value = res.options)
+    .catch(err => notify(`There has been a problem: ${err}`, 'error'))
+
+  clientApi.getClientOptions()
+    .then(res => clientOptions.value = res.options)
+    .catch(err => notify(`There has been a problem: ${err}`, 'error'))
 })
 
 </script>

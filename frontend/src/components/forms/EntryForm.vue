@@ -2,7 +2,6 @@
 import { inject, onMounted, ref } from 'vue';
 import { useConfirm } from "primevue/useconfirm";
 import { getLocalDateTime } from '../../utils/utils';
-import jobApi from '../../utils/api/jobs';
 import clockApi from '../../utils/api/clock';
 
 const { entry } = defineProps({
@@ -16,14 +15,15 @@ const { entry } = defineProps({
 })
 
 const { notify } = inject('toaster')
+const { jobOptions } = inject('options-store')
 const confirm = useConfirm()
 
 const emit = defineEmits(['action-canceled', 'action-succeeded'])
 
-const jobOptions = ref([]) 
 const selectedJob = ref(null)
 const startTime = ref(null)
 const endTime = ref(null)
+const notes = ref(null)
 
 const clearForm = () => {
     selectedJob.value = null
@@ -41,7 +41,8 @@ const handleUpdateEntry = () => {
         id: entry.id,
         job_id: selectedJob.value,
         start_time: new Date(startTime.value).toISOString(),
-        end_time: new Date(endTime.value).toISOString()
+        end_time: new Date(endTime.value).toISOString(),
+        notes: notes.value
     }
 
     clockApi.updateEntry(updatedEntry)
@@ -62,7 +63,6 @@ const handleUpdateEntry = () => {
 }
 
 const handleDeleteEntry = (e) => {
-    console.log('ummmmmmmm ', e.currentTarget)
     confirm.require({
         target: e.currentTarget,
         message: 'Are you sure you want to delete this entry?',
@@ -98,16 +98,12 @@ const handleDeleteEntry = (e) => {
 }
 
 onMounted(() => {
-    jobApi.getJobOptions()
-        .then(res => {
-            jobOptions.value = res.options
-            selectedJob.value = res.options?.find(opt => (
-                opt.value == entry.job_id
-            )).value
-        })
-
     startTime.value = getLocalDateTime(entry.start_time)
     endTime.value = getLocalDateTime(entry.end_time)
+    selectedJob.value = jobOptions.value.find(opt => (
+        opt.value == entry.job_id
+    )).value
+    notes.value = entry.notes
 })
 
 </script>
@@ -154,6 +150,17 @@ onMounted(() => {
             class="min-w-[300px]"
         />
         <Label>End Time</Label>
+    </FloatLabel>
+    <FloatLabel
+        variant="on"
+        class="mb-6"
+    >
+        <Textarea
+            id="notes"
+            v-model="notes"
+            rows="5"
+            class="min-w-[300px]"
+        />
     </FloatLabel>
     <div class="flex flex-row justify-between gap-4">
         <Button

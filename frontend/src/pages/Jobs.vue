@@ -27,7 +27,6 @@ const handleClearJob = () => {
 const handleGetJobs = () => {
     jobApi.getJobs()
         .then(res => {
-            console.log('JOBS HERE -=> ', res.jobs)
             jobs.value = res.jobs
         })
         .catch(err => {
@@ -45,7 +44,7 @@ onMounted(() => {
 <template>
     <div class="flex flex-col justify-start h-full">
         <p class="text-4xl text-left mb-12 pl-4">Jobs</p>
-        <Tabs v-model:value="tabsValue" class="w-[900px] ">
+        <Tabs v-model:value="tabsValue" class="w-[900px] rounded-lg">
             <TabList>
                 <Tab value="0">Job List</Tab>
                 <Tab value="1">Add a Job</Tab>

@@ -14,3 +14,13 @@ button.p-tab:focus {
 button.p-tab {
     border-radius: 0;
 }
+
+.p-datatable-header,
+.p-tablist-tab-list {
+    border-radius: .5rem .5rem 0 0;
+}
+
+.p-datatable-table-container,
+.p-tabpanels {
+    border-radius: 0 0 .5rem .5rem;
+}
