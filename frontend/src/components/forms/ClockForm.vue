@@ -5,6 +5,8 @@ import clockApi from '../../utils/api/clock'
 
 const { notify } = inject('toaster')
 
+const { setLoading } = inject('loading')
+
 const { 
     isClockedIn, 
     setClockedStatus,
@@ -41,8 +43,7 @@ const clearForm = () => {
 
 const handleClockIn = () => {
     if(selectedJob.value) {
-        // setJobWorking(selectedJob.value.label)
-        // setClockedStatus(true)
+        setLoading(true)
 
         const dateTime = new Date()
         const entry = {
@@ -65,12 +66,14 @@ const handleClockIn = () => {
                 console.error(err)
                 notify('There was a problem clocking in: ', 'error')
             })
+            .finally(() => setLoading(false))
     } else {
         notify('Select a Job to Clock-in!', 'error')
     }
 }
 
 const handleClockOut = () => {
+    setLoading(true)
     const entryId = openEntryId.value
     clockApi.clockOut(entryId)
         .then(res => {
@@ -85,11 +88,11 @@ const handleClockOut = () => {
             console.error(err)
             notify('There was a problem clocking you out', 'error')
         })
-        .finally(() =>{
+        .finally(() => {
             emit('clocked-out')
             clearForm()
+            setLoading(false)
         })
-
 }
 
 onMounted(() => {

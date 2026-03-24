@@ -5,6 +5,7 @@ import { useToast } from 'primevue';
 import clockApi from './utils/api/clock'
 import joBApi from './utils/api/jobs'
 import clientApi from './utils/api/clients'
+import LoadingDialog from './components/LoadingDialog.vue';
 
 // notifications
 const toast = useToast()
@@ -27,6 +28,15 @@ const icons = {
     icon: 'pi pi-exclamation-triangle'
   }
 }
+
+const loading = ref(false)
+const setLoading = (bool) => {
+  loading.value = bool
+}
+
+provide('loading', {
+  setLoading
+})
 
 const notify = (message, severity='success') => {
 
@@ -112,6 +122,7 @@ onMounted(() => {
     <div>
       <RouterView />
       <Toast />
+      <LoadingDialog :loading="loading" />
     </div>
   </MainLayout>
 </template>
