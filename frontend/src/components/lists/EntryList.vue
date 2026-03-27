@@ -22,6 +22,7 @@ const { entries, totalHours, tableHeader } = defineProps({
 const emit = defineEmits(['refresh-list'])
 
 const { notify } = inject('toaster')
+const { setLoading } = inject('loading')
 const showEntryForm = ref(false)
 const selectedEntry = ref({})
 const rowsNum = computed(() => entries.length)
@@ -32,6 +33,7 @@ const handleRefreshList = () => {
 }
 
 const handleInitUpdate = (id) => {
+    setLoading(true)
     clockApi.getEntryById(id)
         .then(res => {
             const entry = res.time_entry
@@ -41,6 +43,7 @@ const handleInitUpdate = (id) => {
             }
         })
         .catch(err => notify(String(err), 'error'))
+        .finally(() => setLoading(false))
 }
 
 </script>
