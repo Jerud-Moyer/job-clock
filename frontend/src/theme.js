@@ -82,6 +82,13 @@ export default definePreset(Material, {
         },
         dataTable: {
             borderRadius: '2rem'
+        },
+        dialog: {
+            colorScheme: {
+                dark: {
+                    
+                }
+            }
         }
     },
     
