@@ -24,3 +24,8 @@ button.p-tab {
 .p-tabpanels {
     border-radius: 0 0 .5rem .5rem;
 }
+
+.p-dialog.loading-dialog {
+    --p-dialog-background: transparent!important;
+    --p-dialog-border-color: transparent!important;
+}
