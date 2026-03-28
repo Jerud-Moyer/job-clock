@@ -44,7 +44,6 @@ const clearForm = () => {
 const handleClockIn = () => {
     if(selectedJob.value) {
         setLoading(true)
-
         const dateTime = new Date()
         const entry = {
             start_time: dateTime.toISOString(),

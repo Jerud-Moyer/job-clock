@@ -48,8 +48,10 @@ const isLoading = computed(() => {
 </template>
 
 <style scoped>
-    @keyframes spin-min  { from { transform: rotate(0deg);   } to { transform: rotate(360deg); } }
-    @keyframes spin-hour { from { transform: rotate(0deg);   } to { transform: rotate(360deg); } }
+    @keyframes fade-in { 0% { opacity: 0; } 20% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes spin-min  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spin-hour { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .Dialog { animation: fade-in 1s ease; }
     .min-hand  { transform-origin: 480px 480px; animation: spin-min  1s  linear infinite; }
     .hour-hand { transform-origin: 480px 480px; animation: spin-hour 12s linear infinite; }
 
