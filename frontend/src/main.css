@@ -25,7 +25,20 @@ button.p-tab {
     border-radius: 0 0 .5rem .5rem;
 }
 
+@keyframes dialog-fade-in { 
+    /* this is all just so we dont see the loading indicator
+    on the super quick network calls, just on the really long ones
+    where the app is asleep and such */
+    0% { opacity: 0; } 
+    40% { opacity: 0; } 
+    100% { opacity: 1; } 
+}
+
 .p-dialog.loading-dialog {
     --p-dialog-background: transparent!important;
     --p-dialog-border-color: transparent!important;
+}
+
+.loading-dialog-mask {
+    animation: dialog-fade-in 2s ease;
 }

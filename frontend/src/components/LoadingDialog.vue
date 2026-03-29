@@ -23,7 +23,10 @@ const isLoading = computed(() => {
     v-model:visible="isLoading"
     :closable="false"
     modal
-    class="loading-dialog"
+    :pt="{
+        root: 'loading-dialog', 
+        mask: 'loading-dialog-mask'
+    }"
 >
     <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="-10 -10 980 980">
         <!-- Outer ring from original icon, mirrored to positive coords -->
@@ -48,10 +51,9 @@ const isLoading = computed(() => {
 </template>
 
 <style scoped>
-    @keyframes fade-in { 0% { opacity: 0; } 20% { opacity: 0; } 100% { opacity: 1; } }
     @keyframes spin-min  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes spin-hour { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .Dialog { animation: fade-in 1s ease; }
+ 
     .min-hand  { transform-origin: 480px 480px; animation: spin-min  1s  linear infinite; }
     .hour-hand { transform-origin: 480px 480px; animation: spin-hour 12s linear infinite; }
 
