@@ -40,5 +40,5 @@ button.p-tab {
 }
 
 .loading-dialog-mask {
-    animation: dialog-fade-in 2s ease;
+    animation: dialog-fade-in 1s ease;
 }
